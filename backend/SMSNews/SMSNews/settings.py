@@ -25,7 +25,7 @@ SECRET_KEY = 'uo#4^@k$6p*07td1$dbr)z)^(o@vd@+g@h^t+ir-sxcm*q5ipu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["06addf42.ngrok.io", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "06addf42.ngrok.io", "127.0.0.1"]
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bot',
 ]
 
 MIDDLEWARE = [
