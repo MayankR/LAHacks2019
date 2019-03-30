@@ -1,17 +1,19 @@
 from .models import UserInfo
 
-HELP_CMD = 'H'
+HELP_CMD = ['h', 'help']
 NEWS_TOPICS_CMD = 'news'
+COUNTRY_CMD = ['c', 'country', 'r', 'region']
 PLACES = ["US","UK","India","Australia","Israel","Germany","Mexico","Japan","Korea","France"]
 
 def get_help_text():
     return """Welcome to SMSNews! Enter
-- "news" for latest topics"""
+- "news" for latest topics
+- "c" for changing region """
 
 def get_new_user_text():
     return """Hey, welcome to SMSNews! Let's get to know you better..."""
 
-def get_trending_topics(country_idx):
+def get_trending_topics(country_idx, start_idx=0):
     return ["Modi", "Trump", "LA Hacks"]
 
 def get_greeting(u):
@@ -20,7 +22,7 @@ def get_greeting(u):
 def get_country_prompt():
     msg = """Enter the # for the region you want to learn about %s"""
 
-    places = ['\n' + str(i+1) + ') ' + t for i, t in enumerate(PLACES)]
+    places = ['\n' + str(i+1) + '  ' + t for i, t in enumerate(PLACES)]
     places = "".join(places)
 
 
@@ -29,7 +31,8 @@ def get_country_prompt():
 def get_topics_list(u):
     topic_list = get_trending_topics(int(u.country))
 
-    topics_str = ["\n" + str(i+1) + ") " + t for i, t in enumerate(topic_list)]
+    topics_str = ["\n" + str(i+1) + ". " + t for i, t in enumerate(topic_list)]
+    topics_str.append('\n"M"  ... for more topics')
     topics_str = "".join(topics_str)
 
     country = PLACES[int(u.country)]

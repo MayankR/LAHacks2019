@@ -40,6 +40,10 @@ def msg(request):
         resp = utils.get_new_user_text() + "\n" + utils.get_country_prompt()
         u.country = '#'
         u.save()
+    elif msg_body in utils.COUNTRY_CMD:
+        resp = utils.get_country_prompt()
+        u.country = '#'
+        u.save()
     elif u.country == '#':
         if not utils.check_if_num_in_range(msg_body):
             resp = 'Enter a valid number \n'
@@ -49,7 +53,7 @@ def msg(request):
             u.save()
             resp = "Awesome, lets get you started! \n"
             resp += utils.get_topics_list(u)
-    elif msg_body == utils.HELP_CMD:
+    elif msg_body in utils.HELP_CMD:
         resp = utils.get_help_text()
     elif msg_body == utils.NEWS_TOPICS_CMD:
         resp = utils.get_topics_list(u)
