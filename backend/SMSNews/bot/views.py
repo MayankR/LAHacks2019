@@ -27,24 +27,34 @@ def msg(request):
 
     u = utils.get_current_user(from_num)
 
-    if u.name == '*':
-        resp = utils.get_new_user_text()
-        u.name = '#'
+    # if u.name == '*':
+    #     resp = utils.get_new_user_text()
+    #     u.name = '#'
+    #     u.save()
+    # elif u.name == '#':
+    #     u.name = msg_body
+    #     u.save()
+    #     resp = utils.get_greeting(u) + " " + utils.get_country_prompt(u)
+    # el
+    if u.country == '*':
+        resp = utils.get_new_user_text() + "\n" + utils.get_country_prompt()
+        u.country = '#'
         u.save()
-    elif u.name == '#':
-        u.name = msg_body
-        u.save()
-        resp = utils.get_country_prompt(u)
-    elif u.country == '*':
-        resp = "Awesome, lets get you started"
-        u.country = "#"
-        u.save()
+    elif u.country == '#':
+        if not utils.check_if_num_in_range(msg_body):
+            resp = 'Enter a valid number \n'
+            resp += utils.get_country_prompt()
+        else:
+            u.country = int(msg_body)-1
+            u.save()
+            resp = "Awesome, lets get you started! \n"
+            resp += utils.get_topics_list(u)
     elif msg_body == utils.HELP_CMD:
         resp = utils.get_help_text()
     elif msg_body == utils.NEWS_TOPICS_CMD:
-        resp = utils.get_topics_list()
+        resp = utils.get_topics_list(u)
     else:
-        resp = 'Unknown command. Enter "' + utils.HELP_CMD + '" for more info.'
+        resp = 'Unknown command. Enter "' + utils.HELP_CMD + '" for help.'
 
     r = MessagingResponse()
     r.message(resp)
