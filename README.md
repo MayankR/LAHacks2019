@@ -1,3 +1,6 @@
+## Use it
+Just text +1(858) 239 0484 from the texting/SMS app in your phone.
+
 ## Inspiration
 A large fraction of the populations is still not connected to the internet. Modern web and native apps cater well to the tech savy audience. However, the users with not-so-advanced phones, no internet connection or even the elderly may be left behind.
 
