@@ -50,15 +50,23 @@ def msg(request):
             resp += utils.get_country_prompt()
         else:
             u.country = int(msg_body)-1
+            u.topic_idx = 0
             u.save()
             resp = "Awesome, lets get you started! \n"
             resp += utils.get_topics_list(u)
     elif msg_body in utils.HELP_CMD:
         resp = utils.get_help_text()
-    elif msg_body == utils.NEWS_TOPICS_CMD:
+    elif msg_body in utils.NEWS_TOPICS_CMD:
+        u.topic_idx = 0
+        u.save()
         resp = utils.get_topics_list(u)
+    elif msg_body == 'm':
+        resp = utils.get_topics_list(u)
+    elif utils.check_if_num_in_range(msg_body):
+        utils.get_topic_news(u, int(msg_body)-1)
+        resp = "Info here"
     else:
-        resp = 'Unknown command. Enter "' + utils.HELP_CMD + '" for help.'
+        resp = 'Unknown command. Enter "' + utils.HELP_CMD[0] + '" for help.'
 
     r = MessagingResponse()
     r.message(resp)
