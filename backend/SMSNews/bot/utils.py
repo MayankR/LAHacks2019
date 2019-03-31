@@ -154,7 +154,7 @@ def get_topic_news(u):
 
     for i in range(u.url_idx, len(urls)):
         print("getting summary", i)
-        summ = summarizer.get_summaries(urls, i)
+        summ = summarizer.get_summaries(urls, i).strip()
         if len(summ) > 0:
             if u.country == '2' and u.do_hindi == 1:
                 print("to hindi")
@@ -166,7 +166,7 @@ def get_topic_news(u):
             host = host.split('/')[0]
             if host.startswith("www."):
                 host = host[4:]
-            return summ + " -" + host
+            return summ + " - " + host, i < len(urls)
         print("0 length summary")
     return None
 

@@ -82,24 +82,31 @@ def msg(request):
         # u.url_idx = 0
         # u.save()
     elif msg_body == 'm' and u.url_idx > 0:
-        summ = utils.get_topic_news(u)
+        summ, more = utils.get_topic_news(u)
         print(summ)
         if summ == None:
             resp = "Unable to generate summary"
         else:
             resp = [summ]
-            resp.append('Enter "N" to return to topics or "M" for news from more sources')
+            if more:
+                resp.append('Enter "N" to return to topics or "M" for news from more sources')
+            else:
+                resp.append('Enter "N" to return to topics')
     elif utils.check_if_num_in_range(msg_body):
         u.topic_selected = int(msg_body)-1
         u.url_idx = 0
         u.save()
-        summ = utils.get_topic_news(u)
+        summ, more = utils.get_topic_news(u)
         print(summ)
         if summ == None:
             resp = "Unable to generate summary"
         else:
             resp = [summ]
-            resp.append('Enter "N" to return to topics or "M" for news from more sources')
+            
+            if more:
+                resp.append('Enter "N" to return to topics or "M" for news from more sources')
+            else:
+                resp.append('Enter "N" to return to topics')
     else:
         resp = 'Unknown command. Enter "' + utils.HELP_CMD[0] + '" for help.'
 
