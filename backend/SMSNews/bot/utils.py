@@ -1,15 +1,19 @@
 from .models import UserInfo
 from .taboola import get_taboola_json
+from .diffbot import summarizer
 
 import json
 import requests
 import operator
 import numpy as np
 
+from google.cloud import translate
+
 TOPICS_PER_PAGE = 7
 HELP_CMD = ['h', 'help']
-NEWS_TOPICS_CMD = ['news', 'n', 't', 'topics', 'topic']
+NEWS_TOPICS_CMD = ['news', 'n', 't', 'topics', 'topic', 't']
 COUNTRY_CMD = ['c', 'country', 'r', 'region']
+MORE_TOPICS_CMD = ['m', 'more']
 PLACES = ["US","UK","India","Australia","Israel","Germany","Mexico","Japan","Korea","France"]
 
 def get_help_text():
@@ -143,9 +147,29 @@ def get_topics_list(u):
     
     return begin + topics_str + "\nSelect a topic by entering its #"
 
-def get_topic_news(u, topic_idx):
-    topic_info = get_trending_topics(int(u.country), topic_idx, only_one=True)
+def get_topic_news(u):
+    topic_info = get_trending_topics(int(u.country), u.topic_selected, only_one=True)
     print(topic_info)
+    urls = list(topic_info.values())[0]['urls']
+
+    for i in range(u.url_idx, len(urls)):
+        print("getting summary", i)
+        summ = summarizer.get_summaries(urls, i)
+        if len(summ) > 0:
+            if u.country == '2' and u.do_hindi == 1:
+                print("to hindi")
+                summ = translate_to_hindi(summ)
+            
+            u.url_idx = i+1
+            u.save()
+            host = urls[i].split('//')[1]
+            host = host.split('/')[0]
+            if host.startswith("www."):
+                host = host[4:]
+            return summ + " -" + host
+        print("0 length summary")
+    return None
+
 
 def get_current_user(from_num):
     try:
@@ -177,3 +201,31 @@ def check_if_num_in_range(num, start=1, end=1000000):
             return False
         return True
     return False
+
+def translate_to_hindi(text, target='hi'):
+    translate_client = translate.Client()
+
+    translation = translate_client.translate(text,target_language=target)
+    return translation['translatedText']
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
