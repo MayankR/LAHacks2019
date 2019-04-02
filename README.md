@@ -23,12 +23,12 @@ Here are some of them:
 - Trending topics may have very similar topics because they co-occur in news. We used similarity based heuristics  and a network graph to eliminate them.
 - Maintaining state of users in backend
 
-## Accomplishments that I'm proud of
+## Accomplishments that we are proud of
 - Successfully implemented the chat flow for user interaction using the SMS app
 - We need minimal and simple inputs and interactions from user
 - Presenting the user only with relevant and non-overlapping trend topics
 
-## What I learned
+## What We learned
 - Using Twilio to target users using just SMS
 
 ## What's next for NewsByText
