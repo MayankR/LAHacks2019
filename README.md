@@ -18,6 +18,9 @@ Next, upon selecting a topic, we need to fetch its summary. We use some URLs of 
 
 All the above is in a Django based backend service.
 
+## Demo video
+https://youtu.be/nqDG_reiG7c
+
 ## Challenges we ran into
 Here are some of them:
 - Trending topics may have very similar topics because they co-occur in news. We used similarity based heuristics  and a network graph to eliminate them.
